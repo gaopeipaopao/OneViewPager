@@ -3,6 +3,7 @@ package com.example.gaope.oneviewpager;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return imageViewList.size();
+//        return imageViewList.size();
+        return Integer.MAX_VALUE;
     }
 
     @Override
@@ -33,12 +35,24 @@ public class ViewPagerAdapter extends PagerAdapter {
     //是创建指定位置的页面视图。适配器有责任增加即将创建的View视图到这里给定的container中
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(imageViewList.get(position),0);
-        return imageViewList.get(position);
+//        container.addView(imageViewList.get(position),0);
+//        return imageViewList.get(position);
+        View view = null;
+        position %= imageViewList.size();
+        view = imageViewList.get(position);
+        //如果View已经在之前添加到了一个父组件，则必须先remove，否则会抛出IllegalStateException。
+        //getParent()到的肯定是容器视图或者null
+        ViewParent viewParent = view.getParent();
+        if (viewParent != null){
+            ViewGroup viewGroup = (ViewGroup) viewParent;
+            viewGroup.removeView(view);
+        }
+        container.addView(view);
+        return view;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(imageViewList.get(position));
+        //container.removeView(imageViewList.get(position));
     }
 }

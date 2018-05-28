@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 //                    point.removeView(view);
 //                    Log.d(TAG,"point:"+i);
 //                }
+                position %= imageLists.size();
                 for (int i = 0;i < images.length;i++){
                     ImageView imageView = (ImageView) point.getChildAt(i);
                     if (i == position){
