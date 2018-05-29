@@ -23,6 +23,7 @@ import java.util.logging.LogRecord;
 
 /**
  * 事件分发机制
+ * 消息机制
  * 多线程
  * 都不懂
  */
@@ -64,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         init();
         viewpager.setAdapter(new ViewPagerAdapter(imageLists));
 
-        beginPlay();
 
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             //当页面在滑动时至滑动被停止之前，此方法会一直调用
@@ -94,23 +94,22 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
-        viewpager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        isPlay = false;
-                        Log.d(TAG,TAG+"onTouch");
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        isPlay = true;
-                        break;
-
-                }
-                return false;
-            }
-        });
+//        viewpager.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()){
+//                    case MotionEvent.ACTION_DOWN:
+//                        isPlay = false;
+//                        Log.d(TAG,TAG+"onTouch");
+//                        Log.d(TAG,"touchBollen:"+isPlay);
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//                        isPlay = true;
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
 
 
         //从中间位置开始
@@ -123,9 +122,10 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 while (true) {
+                    Log.d(TAG,"444");
                     mHandler.sendEmptyMessage(0);
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -137,29 +137,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //事件分发
+    //viewpager.setOnTouchListener不起作用
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                isPlay = false;
+                Log.d(TAG,TAG+"onTouch");
+                Log.d(TAG,"touchBollen:"+isPlay);
+                break;
+            case MotionEvent.ACTION_UP:
+                isPlay = true;
+                break;
+        }
 
-    /**
-     * budong
-     */
-    private void beginPlay() {
-
-        Log.d(TAG,"444");
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!isPlay){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(TAG,"run");
-                            viewpager.setCurrentItem(viewpager.getCurrentItem() + 1);
-                        }
-                    });
-                    SystemClock.sleep(3000);
-                }
-            }
-        }).start();
+        return super.dispatchTouchEvent(ev);
     }
 
     private void init() {
@@ -183,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
             point.addView(iP);
         }
     }
+
 
     private class pagerImageOnClick implements View.OnClickListener{
 
