@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0;i < images.length;i++){
             ImageView im = new ImageView(this);
             im.setBackgroundResource(images[i]);
+            im.setOnClickListener(new pagerImageOnClick());
             imageLists.add(im);
             ImageView iP = new ImageView(this);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(20,20);
@@ -179,6 +181,14 @@ public class MainActivity extends AppCompatActivity {
                 iP.setImageResource(R.drawable.shape_point_white);
             }
             point.addView(iP);
+        }
+    }
+
+    private class pagerImageOnClick implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(MainActivity.this,"hhh",Toast.LENGTH_SHORT).show();
         }
     }
 
