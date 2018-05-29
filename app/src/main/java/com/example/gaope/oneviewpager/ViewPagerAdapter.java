@@ -1,6 +1,7 @@
 package com.example.gaope.oneviewpager;
 
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -15,6 +16,8 @@ import java.util.Objects;
 
 public class ViewPagerAdapter extends PagerAdapter {
 
+    private static final String TAG = "ViewPagerAdapter";
+
     private List<ImageView> imageViewList;
 
     public ViewPagerAdapter(List<ImageView> imageViewList){
@@ -24,7 +27,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public int getCount() {
 //        return imageViewList.size();
-        return Integer.MAX_VALUE;
+        return 10000;
     }
 
     @Override
@@ -35,6 +38,10 @@ public class ViewPagerAdapter extends PagerAdapter {
     //是创建指定位置的页面视图。适配器有责任增加即将创建的View视图到这里给定的container中
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+
+//        Log.d(TAG,"instantiate:");
+//        Log.d(TAG,"insOption:"+position);
+
 //        container.addView(imageViewList.get(position),0);
 //        return imageViewList.get(position);
         View view = null;
